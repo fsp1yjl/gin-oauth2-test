@@ -240,6 +240,8 @@ func (s *Server) GetAuthorizeToken(ctx context.Context, req *AuthorizeRequest) (
 		CodeChallenge:       req.CodeChallenge,
 		CodeChallengeMethod: req.CodeChallengeMethod,
 	}
+
+	fmt.Println("tgr------::", tgr)
 	return s.Manager.GenerateAuthToken(ctx, req.ResponseType, tgr)
 }
 
@@ -271,6 +273,7 @@ func (s *Server) HandleAuthorizeRequest(w http.ResponseWriter, r *http.Request) 
 	}
 	req.UserID = userID
 
+
 	// specify the scope of authorization
 	if fn := s.AuthorizeScopeHandler; fn != nil {
 		scope, err := fn(w, r)
@@ -291,10 +294,11 @@ func (s *Server) HandleAuthorizeRequest(w http.ResponseWriter, r *http.Request) 
 	}
 
 	ti, err := s.GetAuthorizeToken(ctx, req)
+	fmt.Println("dddddddddddddddddddddddddddddddddd",req)
 	if err != nil {
 		return s.redirectError(w, req, err)
 	}
-
+	fmt.Println("dddddddddddddddddddddddddddddddddd",22222222222)
 	// If the redirect URI is empty, the default domain provided by the client is used.
 	if req.RedirectURI == "" {
 		client, err := s.Manager.GetClient(ctx, req.ClientID)

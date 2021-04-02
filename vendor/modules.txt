@@ -1,5 +1,18 @@
 # github.com/dgrijalva/jwt-go v3.2.0+incompatible
 github.com/dgrijalva/jwt-go
+# github.com/gin-contrib/sessions v0.0.3
+## explicit
+github.com/gin-contrib/sessions
+github.com/gin-contrib/sessions/memstore
+# github.com/gin-contrib/sse v0.1.0
+github.com/gin-contrib/sse
+# github.com/gin-gonic/gin v1.6.3
+## explicit
+github.com/gin-gonic/gin
+github.com/gin-gonic/gin/binding
+github.com/gin-gonic/gin/internal/bytesconv
+github.com/gin-gonic/gin/internal/json
+github.com/gin-gonic/gin/render
 # github.com/go-oauth2/oauth2/v4 v4.3.0
 ## explicit
 github.com/go-oauth2/oauth2/v4
@@ -9,6 +22,13 @@ github.com/go-oauth2/oauth2/v4/manage
 github.com/go-oauth2/oauth2/v4/models
 github.com/go-oauth2/oauth2/v4/server
 github.com/go-oauth2/oauth2/v4/store
+# github.com/go-playground/locales v0.13.0
+github.com/go-playground/locales
+github.com/go-playground/locales/currency
+# github.com/go-playground/universal-translator v0.17.0
+github.com/go-playground/universal-translator
+# github.com/go-playground/validator/v10 v10.2.0
+github.com/go-playground/validator/v10
 # github.com/go-session/session v3.1.2+incompatible
 ## explicit
 github.com/go-session/session
@@ -16,6 +36,24 @@ github.com/go-session/session
 github.com/golang/protobuf/proto
 # github.com/google/uuid v1.1.1
 github.com/google/uuid
+# github.com/gorilla/context v1.1.1
+github.com/gorilla/context
+# github.com/gorilla/securecookie v1.1.1
+github.com/gorilla/securecookie
+# github.com/gorilla/sessions v1.1.3
+github.com/gorilla/sessions
+# github.com/json-iterator/go v1.1.9
+github.com/json-iterator/go
+# github.com/leodido/go-urn v1.2.0
+github.com/leodido/go-urn
+# github.com/mattn/go-isatty v0.0.12
+github.com/mattn/go-isatty
+# github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421
+github.com/modern-go/concurrent
+# github.com/modern-go/reflect2 v0.0.0-20180701023420-4b7aa43c6742
+github.com/modern-go/reflect2
+# github.com/quasoft/memstore v0.0.0-20180925164028-84a050167438
+github.com/quasoft/memstore
 # github.com/tidwall/btree v0.0.0-20191029221954-400434d76274
 github.com/tidwall/btree
 # github.com/tidwall/buntdb v1.1.2
@@ -33,6 +71,8 @@ github.com/tidwall/rtree
 github.com/tidwall/rtree/base
 # github.com/tidwall/tinyqueue v0.0.0-20180302190814-1e39f5511563
 github.com/tidwall/tinyqueue
+# github.com/ugorji/go/codec v1.1.7
+github.com/ugorji/go/codec
 # golang.org/x/net v0.0.0-20200625001655-4c5254603344
 golang.org/x/net/context
 golang.org/x/net/context/ctxhttp
@@ -41,6 +81,9 @@ golang.org/x/net/context/ctxhttp
 golang.org/x/oauth2
 golang.org/x/oauth2/clientcredentials
 golang.org/x/oauth2/internal
+# golang.org/x/sys v0.0.0-20200625212154-ddb9806d33ae
+golang.org/x/sys/internal/unsafeheader
+golang.org/x/sys/unix
 # google.golang.org/appengine v1.6.6
 google.golang.org/appengine/internal
 google.golang.org/appengine/internal/base
@@ -77,3 +120,5 @@ google.golang.org/protobuf/reflect/protoreflect
 google.golang.org/protobuf/reflect/protoregistry
 google.golang.org/protobuf/runtime/protoiface
 google.golang.org/protobuf/runtime/protoimpl
+# gopkg.in/yaml.v2 v2.3.0
+gopkg.in/yaml.v2

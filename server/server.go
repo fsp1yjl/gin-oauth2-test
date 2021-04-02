@@ -98,12 +98,22 @@ func main() {
 
 		var form url.Values
 		if v, ok := store.Get("ReturnUri"); ok {
+			fmt.Println("ReturnUri::::", v)
 			form = v.(url.Values)
 		}
 		r.Form = form
 
 		store.Delete("ReturnUri")
 		store.Save()
+
+		fmt.Println("forms:------------")
+		fmt.Println("forms:------------")
+		fmt.Println("forms:------------", r.Form.Encode())
+
+		fmt.Println("forms:------------")
+
+		fmt.Println("forms:------------")
+
 
 		err = srv.HandleAuthorizeRequest(w, r)
 		if err != nil {
@@ -166,6 +176,13 @@ func userAuthorizeHandler(w http.ResponseWriter, r *http.Request) (userID string
 	if dumpvar {
 		_ = dumpRequest(os.Stdout, "userAuthorizeHandler", r) // Ignore the error
 	}
+
+
+	fmt.Println("into user auth user id get -------------")
+	fmt.Println("into user auth user id get -------------")
+	fmt.Println("into user auth user id get -------------")
+	fmt.Println("into user auth user id get -------------")
+	fmt.Println("into user auth user id get -------------")
 	store, err := session.Start(r.Context(), w, r)
 	if err != nil {
 		return
