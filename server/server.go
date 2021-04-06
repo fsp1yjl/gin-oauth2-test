@@ -19,6 +19,8 @@ import (
 	"github.com/go-oauth2/oauth2/v4/server"
 	"github.com/go-oauth2/oauth2/v4/store"
 	"github.com/go-session/session"
+	"github.com/go-redis/redis/v8"
+	oredis "github.com/go-oauth2/redis/v4"
 )
 
 var (
@@ -45,8 +47,15 @@ func main() {
 	manager := manage.NewDefaultManager()
 	manager.SetAuthorizeCodeTokenCfg(manage.DefaultAuthorizeCodeTokenCfg)
 
-	// token store
-	manager.MustTokenStorage(store.NewMemoryTokenStore())
+	// token store in redis
+	manager.MapTokenStorage(oredis.NewRedisStore(&redis.Options{
+		Addr: "127.0.0.1:6379",
+		Password: "131121",
+		DB: 15,
+	}))
+
+	// token store in memory
+	//manager.MustTokenStorage(store.NewMemoryTokenStore())
 
 	// generate jwt access token
 	// manager.MapAccessGenerate(generates.NewJWTAccessGenerate("", []byte("00000000"), jwt.SigningMethodHS512))
@@ -58,9 +67,22 @@ func main() {
 		Secret: secretvar,
 		Domain: domainvar,
 	})
+
+	test_client_id := "19abcf2774527faf5ae5ee1a9b316e7556bd9b78"
+	test_client_secret :=  "664cbf97ebc94b4fe73e3ff8a7f2aeb9e6a91021"
+	test_domain := "http://localhost:9094"
+	clientStore.Set(test_client_id,  &models.Client{
+		ID:     test_client_id,
+		Secret: test_client_secret,
+		Domain: test_domain,
+	})
+
 	manager.MapClientStorage(clientStore)
 
 	srv := server.NewServer(server.NewConfig(), manager)
+
+	// 重新设置从form 获取 client ,secret信息
+	srv.SetClientInfoHandler(server.ClientFormHandler)
 
 	// 这里设置了通过用户名，密码获取user_id的方法
 	srv.SetPasswordAuthorizationHandler(func(username, password string) (userID string, err error) {

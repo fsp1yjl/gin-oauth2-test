@@ -154,6 +154,8 @@ func LoggedCheckHandle(c *gin.Context)  {
 //}
 
 func CallbackHandle(c *gin.Context) {
+
+	fmt.Println("into callback")
 	r := c.Request
 	r.ParseForm()
 
@@ -174,8 +176,8 @@ func CallbackHandle(c *gin.Context) {
 	}
 
 	authConf := oauth2.Config{
-		ClientID:     "222222",
-		ClientSecret: "22222222",
+		ClientID : "19abcf2774527faf5ae5ee1a9b316e7556bd9b78",
+		ClientSecret: "664cbf97ebc94b4fe73e3ff8a7f2aeb9e6a91021",
 		Scopes:       []string{"all"},
 		RedirectURL:  "http://localhost:9094/oauth2",
 		Endpoint: oauth2.Endpoint{
