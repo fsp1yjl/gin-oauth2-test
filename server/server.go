@@ -19,8 +19,6 @@ import (
 	"github.com/go-oauth2/oauth2/v4/server"
 	"github.com/go-oauth2/oauth2/v4/store"
 	"github.com/go-session/session"
-	"github.com/go-redis/redis/v8"
-	oredis "github.com/go-oauth2/redis/v4"
 )
 
 var (
@@ -48,14 +46,14 @@ func main() {
 	manager.SetAuthorizeCodeTokenCfg(manage.DefaultAuthorizeCodeTokenCfg)
 
 	// token store in redis
-	manager.MapTokenStorage(oredis.NewRedisStore(&redis.Options{
-		Addr: "127.0.0.1:6379",
-		Password: "131121",
-		DB: 15,
-	}))
+	//manager.MapTokenStorage(oredis.NewRedisStore(&redis.Options{
+	//	Addr: "127.0.0.1:6379",
+	//	Password: "131121",
+	//	DB: 15,
+	//}))
 
 	// token store in memory
-	//manager.MustTokenStorage(store.NewMemoryTokenStore())
+	manager.MustTokenStorage(store.NewMemoryTokenStore())
 
 	// generate jwt access token
 	// manager.MapAccessGenerate(generates.NewJWTAccessGenerate("", []byte("00000000"), jwt.SigningMethodHS512))
@@ -82,7 +80,7 @@ func main() {
 	srv := server.NewServer(server.NewConfig(), manager)
 
 	// 重新设置从form 获取 client ,secret信息
-	srv.SetClientInfoHandler(server.ClientFormHandler)
+	//srv.SetClientInfoHandler(server.ClientFormHandler)
 
 	// 这里设置了通过用户名，密码获取user_id的方法
 	srv.SetPasswordAuthorizationHandler(func(username, password string) (userID string, err error) {
@@ -146,6 +144,10 @@ func main() {
 	http.HandleFunc("/oauth/token", func(w http.ResponseWriter, r *http.Request) {
 		if dumpvar {
 			_ = dumpRequest(os.Stdout, "token", r) // Ignore the error
+		}
+
+		if r.Form == nil {
+			r.ParseForm()
 		}
 
 		err := srv.HandleTokenRequest(w, r)

@@ -3,6 +3,7 @@ package main
 
 import (
 	"context"
+	"encoding/gob"
 	"fmt"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/memstore"
@@ -68,7 +69,7 @@ func LoadConfig()  {
 
  // 初始化sessionStore
 func initSessionStore() sessions.Store  {
-	sessionStore := memstore.NewStore([]byte("SessionSecretKey"))
+	sessionStore := memstore.NewStore([]byte("secret"))
 	return sessionStore
 }
 
@@ -102,6 +103,8 @@ func DefaultPage(c *gin.Context) {
 }
 
 func LoginCheck(sess sessions.Session)  bool{
+
+		gob.Register(oauth2.Token{})
 		token := sess.Get("token")
 		if token == nil {
 			return false
@@ -132,8 +135,12 @@ func LoggedCheckHandle(c *gin.Context)  {
 		return str
 	}
 
+	//gob.Register(oauth2.Token{})
+
 	if logged {
-		c.Redirect(302, "/")
+		to:= session.Get("token").(oauth2.Token)
+
+		c.JSON(200, to)
 		return
 	}
 
@@ -163,6 +170,7 @@ func CallbackHandle(c *gin.Context) {
 	stateSession := session.Get("state" )
 	state := r.Form.Get("state")
 
+	fmt.Println("------------session state:", state)
 	// nsrf secure check by state param
 	if state == "" || state != stateSession {
 		c.JSON(200,gin.H{"msg:":"nsrf check failed"})
@@ -179,7 +187,7 @@ func CallbackHandle(c *gin.Context) {
 		ClientID : "19abcf2774527faf5ae5ee1a9b316e7556bd9b78",
 		ClientSecret: "664cbf97ebc94b4fe73e3ff8a7f2aeb9e6a91021",
 		Scopes:       []string{"all"},
-		RedirectURL:  "http://localhost:9094/oauth2",
+		RedirectURL:  "http://localhost:9094/auth/callback",
 		Endpoint: oauth2.Endpoint{
 			AuthURL:  config.OAuth2.Server + "/oauth/authorize",
 			TokenURL: config.OAuth2.Server + "/oauth/token",
@@ -194,11 +202,11 @@ func CallbackHandle(c *gin.Context) {
 		c.JSON(500, gin.H{"msg:": "internal error"})
 		return
 	}
-	fmt.Println("222 after  get token")
+	fmt.Println("222 after  get token", token)
 
 	session.Set("token", token )
 	session.Save()
-	c.Redirect(200,"/auth/is_login")
+	c.Redirect(302,"/auth/is_login")
 
 
 }
